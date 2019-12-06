@@ -10,8 +10,10 @@
     }).then(device => {
         console.log(device.serialNumber + " | " + device.productName);
       device.open;
-      const set_command_type_packet = string_to_buffer("go memory move") + "0x9000040" + "0x9000000" + "0x48000";
-      device.transferOut(2, set_command_type_packet)
+     device.selectConfiguration(1)
+     device.claimInterface(0)
+      const set_command_type_packet = Uint8Array.of(string_to_buffer("go memory move"), "0x9000040" , "0x9000000" , "0x48000");
+      device.transferOut(0, set_command_type_packet)
     }).catch(error => {
       console.log(error);
     });
