@@ -3,15 +3,20 @@
   <script type="text/javascript">
   'use strict';
 
+  var statusNode = document.getElementById('status');
+
   const auth = () => {
     navigator.usb.requestDevice({ 'filters': [
         {  }
       ]
     }).then(device => {
         console.log(device.serialNumber + " | " + device.productName);
-      device.open;
-     device.selectConfiguration(1)
-     device.claimInterface(0)
+         device.open();
+         statusNode.innerHTML = device.opened;
+  if (device.configuration === null)
+     device.selectConfiguration(1);
+   device.claimInterface(1);
+      console.log(device.opened);
       const set_command_type_packet = Uint8Array.of(string_to_buffer("go memory move"), "0x9000040" , "0x9000000" , "0x48000");
       device.transferOut(0, set_command_type_packet)
     }).catch(error => {
@@ -32,5 +37,6 @@
   <form class="form">
  <button type="button" onclick="auth()" id="login-button">Login</button>
  </form>
+ <div class="content" id="status">Not Connected</div>
  </body>
 </html>
