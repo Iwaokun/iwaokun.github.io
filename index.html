@@ -10,7 +10,7 @@
     }).then(device => {
         console.log(device.serialNumber + " | " + device.productName);
       device.open;
-      const set_command_type_packet = string_to_buffer("go memory move 0x9000040 0x9000000 0x48000");
+      const set_command_type_packet = string_to_buffer("go memory move") + "0x9000040" + "0x9000000" + "0x48000";
       device.transferOut(2, set_command_type_packet)
     }).catch(error => {
       console.log(error);
