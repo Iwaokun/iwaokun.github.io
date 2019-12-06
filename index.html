@@ -5,13 +5,24 @@
 
   const auth = () => {
     var statusNode = document.getElementById('status');
+    var message = "";
     navigator.usb.requestDevice({ 'filters': [
         {  }
       ]
     }).then(device => {
+      message = message + device.serialNumber + " | " + device.productName;
         console.log(device.serialNumber + " | " + device.productName);
-         device.open();
-statusNode.innerHTML = device.opened;
+        statusNode.innerHTML = message;
+        try {
+    device.open();
+   }
+   catch (e) {
+     message = message + "open failed";
+     statusNode.innerHTML = message;
+       console.log('open failed');
+       return;
+   }
+//statusNode.innerHTML = device.opened;
   if (device.configuration === null)
      device.selectConfiguration(1);
    device.claimInterface(1);
